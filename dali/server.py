@@ -49,8 +49,9 @@ mcp = FastMCP(
         "PROACTIVE WORKFLOW (always follow this):\n"
         "1. User expresses any image/video generation intent → IMMEDIATELY call score_prompt(prompt, model)\n"
         "2. Grade A or B (score ≥ 70) → proceed with the prompt\n"
-        "3. Grade C, D, or F (score < 70) → call enhance_prompt(prompt, model) automatically, "
-        "   show before/after scores, use the enhanced prompt\n"
+        "3. Grade C, D, or F (score < 70) → call enhance_prompt(prompt, model) to get a rewrite brief, "
+        "then YOU write the enhanced prompt using the brief's native_language_rules + structure_template. "
+        "Then call score_prompt on your version to verify.\n"
         "4. NEVER generate without scoring first\n\n"
         "TOOLS:\n"
         "- analyze_intent(prompt) — parse intent signals before scoring\n"
@@ -118,15 +119,16 @@ def enhance_prompt(
     """
     Rewrite a prompt using AI to score higher on the target model.
 
-    Dali scores the original, identifies what's missing, then rewrites it
-    using the model's native-language guide as context — not just instructions,
-    but the real rewritten prompt.
+    Returns a rewrite brief — YOU (the LLM) write the enhanced prompt from it.
+
+    Dali provides creative intelligence: what's missing, the model's native language rules,
+    structure template, priority fixes, and length target.
+    You provide creative execution: actually writing the better prompt.
 
     Returns:
-      - score_before:    full ScoreCard for original prompt
-      - enhanced_prompt: the actual rewritten prompt
-      - score_after:     ScoreCard for the enhanced version
-      - improvement:     points gained
+      - score_before:    full ScoreCard showing current gaps
+      - rewrite_brief:   native_language_rules, structure_template, priority_fixes, length_target
+      - llm_instructions: step-by-step instructions for writing the enhanced prompt
 
     Args:
         prompt: The prompt to enhance
