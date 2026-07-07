@@ -27,3 +27,6 @@ dali = "dali.server:main"
 [project.urls]
 Homepage   = "https://dali.getlulu.dev"
 Repository = "https://github.com/Lulu-The-Narwhal/dali-mcp"
+
+[tool.hatch.build.targets.wheel]
+packages = ["dali"]

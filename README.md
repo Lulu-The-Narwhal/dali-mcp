@@ -1,3 +1,4 @@
+<!-- mcp-name: io.github.Lulu-The-Narwhal/dali -->
 # Dali by Lulu
 
 <p align="center">

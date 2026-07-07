@@ -1,0 +1,23 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Lulu-The-Narwhal/dali",
+  "title": "Dali by Lulu",
+  "description": "The prediction MCP that helps you avoid the AI generation tax. Score your prompt 0-100 before generating — so you never waste a credit on a bad prompt again. Supports Veo 3, Seedance, Kling, Runway, Wan, Minimax, Higgsfield, Flux, Midjourney, Ideogram, Firefly.",
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "dali-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://dali.getlulu.dev/mcp"
+    }
+  ]
+}
