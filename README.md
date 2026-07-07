@@ -1,5 +1,9 @@
 # Dali by Lulu
 
+<p align="center">
+  <img src="assets/banner.png" alt="Dali by Lulu — creative intelligence MCP" width="100%">
+</p>
+
 **Score your prompt before you spend the credit.**
 
 Most AI generation failures are prompt failures. You can't tell the difference until after you've burned the token. Dali sits inside your agent and fixes that — before you generate.
