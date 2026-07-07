@@ -51,8 +51,10 @@ dali::enhance_prompt(prompt, "veo3")
 ```bash
 # Claude Code
 claude mcp add --transport http dali https://dali.getlulu.dev/mcp
+```
 
-# Cursor / Windsurf — add to mcp.json:
+```json
+// Cursor / Windsurf — .cursor/mcp.json or windsurf settings
 {
   "mcpServers": {
     "dali": { "url": "https://dali.getlulu.dev/mcp" }
@@ -91,11 +93,11 @@ claude mcp add dali -- python -m dali.server
 
 | Model | Platforms | Best for | Prompt style |
 |-------|-----------|----------|--------------|
-| `veo3` | Higgsfield, Google AI Studio (`veo-3.1-generate-preview`), Runway | Cinematic brand films, narrative ads, photorealistic motion | Cinematography → Subject → Action → Context → Style → Audio |
+| `veo3` | Higgsfield, Google AI Studio (`veo-3.1-generate-preview`), Runway | Cinematic brand films, narrative ads, photorealistic motion | Camera move → Subject → Action → Location → Lighting → Mood |
 | `seedance` | Higgsfield, fal.ai (`bytedance/seedance-2.0`) | UGC, social-native content, TikTok/Reels performance ads | Natural language, motion-first, authentic feel |
 | `kling` | Higgsfield (`kling3`), Kling.ai (`kling-v3-text-to-video`) | Character animation, product showcases, facial performance | Scene → Characters → Action → Camera → Style; multi-shot labels |
-| `runway` | Runway (`gen4.5`) | VFX, character performance, cinematic motion | Motion-first — describe what moves, not what exists |
-| `wan` | fal.ai (`fal-ai/wan/v2.7/reference-to-video`) | 4K, 20-second clips, open-source workflows | Natural language; supports first/last frame, native audio |
+| `runway` | Runway (`gen4_turbo`) | VFX, character performance, cinematic motion | Motion-first — describe what moves, not what exists |
+| `wan` | fal.ai (`fal-ai/wan/v2.7/text-to-video`) | 4K, 20-second clips, native audio, open-source workflows | Scene → Motion → Sound → Duration → Mood |
 | `minimax` | fal.ai (`fal-ai/minimax/hailuo-02/pro/text-to-video`) | Cinematic storytelling, character animation | Natural language + `[camera movement]` bracket syntax |
 | `higgsfield` | Higgsfield (native model) | Physics-driven motion — cloth, hair, fluid, particles | Describe materials in motion, not motion abstractly |
 
@@ -105,12 +107,12 @@ claude mcp add dali -- python -m dali.server
 
 | Model | Platforms | Best for | Prompt style |
 |-------|-----------|----------|--------------|
-| `flux` | BFL API (`flux-2-pro`), fal.ai, Replicate | Photorealism, technical photography, product shots | 30–80 words; camera body + lens specs; front-load subject; no negatives |
+| `flux` | BFL API (`flux-pro-v1.1`), fal.ai, Replicate | Photorealism, technical photography, product shots | 30–80 words; camera body + lens specs; front-load subject |
 | `midjourney` | Midjourney (v8.1) | Artistic depth, editorial, stylized illustration | Prose + params appended: `--ar 16:9 --s 300 --v 8.1 --style raw` |
 | `ideogram` | Ideogram API (`V_4`), fal.ai | Typography, logos, text-in-image, graphic design | Describe text exactly in quotes inside the prompt |
 | `firefly` | Adobe Firefly 5 (enterprise) | IP-indemnified commercial assets, 4MP brand content | Natural language + `contentClass` and `style.presets` API params |
 
-> **Imagen 4** (Google): Deprecated August 17, 2026. Use `gemini-3.1-flash-image` for new builds.
+> **Imagen 4** (Google): Deprecated August 17, 2026. Use `gemini-3.5-flash` with image output for new builds.
 
 ---
 
@@ -138,11 +140,12 @@ Dali scores for the **underlying model's native prompt language**, not the platf
 Generic prompt optimizers don't know that:
 - **Veo 3.1** needs camera movement specified above everything else
 - **Kling 3** supports multi-shot scene labels natively in the prompt
-- **Flux 2** responds to camera body and lens names like a photographer (`"Sony A7 IV, 85mm f/1.4"`)
+- **Flux** responds to camera body and lens names like a photographer (`"Sony A7 IV, 85mm f/1.4"`)
 - **Midjourney V8.1** reads prose + parameters, not keyword lists
 - **Higgsfield** simulates physics — you describe materials in motion, not motion abstractly
-- **Minimax Director** uses `[Pan left]` bracket syntax for camera moves
+- **Minimax** uses `[Pan left]` bracket syntax for camera moves — plain text camera commands are ignored
 - **Ideogram V4** needs text quoted exactly in the prompt for typography accuracy
+- **Wan 2.7** generates native audio — include sound descriptions alongside visuals
 
 Dali has a separate scoring rubric and rewrite brief for each model. Your LLM does the creative rewriting — Dali provides the intelligence.
 
@@ -151,17 +154,19 @@ Dali has a separate scoring rubric and rewrite brief for each model. Your LLM do
 ## MCP resources
 
 ```
-creative://guide/veo3       → Veo 3.1 camera language + audio cue guide
+creative://guide/veo3       → Veo 3.1 camera language guide
 creative://guide/seedance   → Seedance UGC motion guide
 creative://guide/kling      → Kling multi-shot + expression guide
 creative://guide/runway     → Runway motion-first guide
-creative://guide/wan        → Wan 2.7 guide
+creative://guide/wan        → Wan 2.7 audio + motion guide
 creative://guide/minimax    → Minimax bracket camera guide
 creative://guide/higgsfield → Higgsfield physics-motion guide
-creative://guide/flux       → Flux 2 photography brief guide
+creative://guide/sora       → Sora 2 guide (API shutdown Sep 24, 2026)
+creative://guide/flux       → Flux photography brief guide
 creative://guide/midjourney → Midjourney V8.1 + parameters guide
 creative://guide/ideogram   → Ideogram V4 typography guide
 creative://guide/firefly    → Firefly 5 commercial content guide
+creative://guide/imagen     → Imagen 4 guide (deprecated Aug 17, 2026)
 creative://models           → All models overview
 ```
 
@@ -169,7 +174,7 @@ creative://models           → All models overview
 
 ## Contributing
 
-Model guides live in `dali/data/guides/{model}.json` in the private hosted server. Found practitioner patterns that consistently produce high-grade results? Open an issue with the model, the pattern, and a sample prompt + result. The best contributions come from Reddit, Discord, and YouTube — real practitioners, not official docs.
+Model guides live in `dali/data/guides/{model}.json` on the hosted server. Found practitioner patterns that consistently produce high-grade results? Open an issue with the model, the pattern, and a sample prompt + result. The best contributions come from Reddit, Discord, and YouTube — real practitioners, not official docs.
 
 ---
 
