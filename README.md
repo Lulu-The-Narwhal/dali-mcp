@@ -116,18 +116,20 @@ claude mcp add dali -- python -m dali.server
 
 ## Platform supersets
 
-**Higgsfield** and **Runway** are aggregator platforms — they proxy multiple underlying models under one API. When you're on Higgsfield, the model you pick matters more than the platform:
+**Higgsfield** and **Runway** are aggregator platforms — they proxy multiple underlying models under one API. The model you pick matters more than the platform name:
 
-| Higgsfield API ID | Underlying model |
-|-------------------|-----------------|
-| `veo3` | Google Veo 3.1 |
-| `seedance` / `seedance1-5` | ByteDance Seedance 1.0 / 1.5 |
-| `kling3` / `kling2-6` | Kling 3 / Kling 2.6 |
-| `sora2-video` | OpenAI Sora 2 |
-| `wan2-6` / `wan2-7` | Wan 2.6 / 2.7 |
-| `image2video` | Higgsfield native |
+| Platform | Model selector | Underlying model |
+|----------|---------------|-----------------|
+| Higgsfield | `veo3` | Google Veo 3.1 |
+| Higgsfield | `seedance` | ByteDance Seedance 2.0 |
+| Higgsfield | `kling3` | Kling 3 |
+| Higgsfield | `wan2-7` | Wan 2.7 |
+| Higgsfield | `image2video` | Higgsfield native |
+| Runway | `veo3` | Google Veo 3.1 |
+| Runway | `gen4_turbo` | Runway Gen 4.5 |
+| Runway | `seedance` | ByteDance Seedance 2.0 |
 
-Dali scores and enhances for the **underlying model's native prompt language**, not the platform wrapper. Pass the model name (`veo3`, `kling`, `seedance`...), not the platform name.
+Dali scores for the **underlying model's native prompt language**, not the platform wrapper. Pass the model name (`veo3`, `kling`, `seedance`…), not the platform name.
 
 ---
 
@@ -142,7 +144,7 @@ Generic prompt optimizers don't know that:
 - **Minimax Director** uses `[Pan left]` bracket syntax for camera moves
 - **Ideogram V4** needs text quoted exactly in the prompt for typography accuracy
 
-Dali has a separate scoring rubric and Gemini enhancement system prompt for each model.
+Dali has a separate scoring rubric and rewrite brief for each model. Your LLM does the creative rewriting — Dali provides the intelligence.
 
 ---
 
