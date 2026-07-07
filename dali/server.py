@@ -60,8 +60,8 @@ mcp = FastMCP(
         "- community_benchmark(prompt, model) — compare vs top scorers\n"
         "- my_story() — personal scoring history and creative DNA\n"
         "- list_models() — all supported models\n\n"
-        "SUPPORTED MODELS: veo3, higgsfield, kling, sora, midjourney, flux, imagen\n"
-        "ALIASES: veo→veo3, mj→midjourney, sd→flux\n\n"
+        "SUPPORTED MODELS: veo3, seedance, kling, runway, wan, minimax, higgsfield, sora, flux, midjourney, ideogram, firefly, imagen\n"
+        "ALIASES: veo→veo3, mj→midjourney, sd→flux, gen4→runway, hailuo→minimax, wan27→wan\n\n"
         "RESOURCES: creative://guide/{model} — full native-language guide\n\n"
         "INSTALL GUIDE: dali.getlulu.dev/install"
     ),
@@ -100,8 +100,8 @@ def score_prompt(
     breakdown, what's missing, detected anti-patterns, and a one-line verdict
     on whether it's safe to generate.
 
-    Supported models: veo3, higgsfield, midjourney, flux, kling, sora, imagen
-    Aliases: "veo" → veo3, "mj" → midjourney, "sd" → flux
+    Supported models: veo3, seedance, kling, runway, wan, minimax, higgsfield, sora, flux, midjourney, ideogram, firefly, imagen
+    Aliases: "veo" → veo3, "mj" → midjourney, "sd" → flux, "gen4" → runway, "hailuo" → minimax
 
     Args:
         prompt: The prompt to score
@@ -130,7 +130,7 @@ def enhance_prompt(
 
     Args:
         prompt: The prompt to enhance
-        model:  Target generation model (veo3, higgsfield, midjourney, flux, kling, sora, imagen)
+        model:  Target generation model (veo3, seedance, kling, runway, wan, minimax, higgsfield, sora, flux, midjourney, ideogram, firefly, imagen)
     """
     return call("/api/enhance", {"prompt": prompt, "model": model})
 
@@ -151,7 +151,7 @@ def creative_patterns(
     have produced the highest score gains for this model).
 
     Args:
-        model: Target generation model (veo3, higgsfield, midjourney, flux, kling, sora, imagen)
+        model: Target generation model (veo3, seedance, kling, runway, wan, minimax, higgsfield, flux, midjourney, ideogram, firefly)
         grade: Minimum grade filter — "A" (only A-grade), "B" (A+B), "C" (A+B+C)
     """
     return call("/api/patterns", {"model": model, "grade": grade})
