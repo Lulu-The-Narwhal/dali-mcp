@@ -112,7 +112,7 @@ claude mcp add dali -- python -m dali.server
 | `ideogram` | Ideogram API (`V_4`), fal.ai | Typography, logos, text-in-image, graphic design | Describe text exactly in quotes inside the prompt |
 | `firefly` | Adobe Firefly 5 (enterprise) | IP-indemnified commercial assets, 4MP brand content | Natural language + `contentClass` and `style.presets` API params |
 
-> **Imagen 4** (Google): Deprecated August 17, 2026. Use `gemini-3.5-flash` with image output for new builds.
+> **Imagen 4** (Google): deprecated — use `gemini-3.5-flash` with image output. Dali still scores legacy Imagen prompts via the `imagen` model key but don't build new things on it.
 
 ---
 
