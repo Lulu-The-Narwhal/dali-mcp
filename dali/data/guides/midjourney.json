@@ -1,0 +1,80 @@
+{
+  "model": "midjourney",
+  "display_name": "Midjourney",
+  "medium": "image",
+  "overview": "Midjourney speaks in nouns and adjectives, not sentences. The r/midjourney community has established that style references (artist names, art movements, film stocks) do more work than descriptive sentences. Parameters are first-class — --ar, --s, --chaos are not optional. Think of it as tagging a concept, not writing a brief.",
+
+  "dimensions": {
+    "style_reference": {
+      "weight": 0.25,
+      "impact": "CRITICAL",
+      "description": "Naming a photographer, painter, director, or art movement is the single highest-leverage lever in Midjourney. 'by Gregory Crewdson' changes everything about the output.",
+      "best_terms": [
+        "by [artist name]", "in the style of", "shot on Kodak Portra",
+        "analog photography", "Hasselblad", "35mm film", "Leica M",
+        "impressionist", "art nouveau", "Bauhaus", "film noir"
+      ]
+    },
+    "aspect_ratio": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "Without --ar, MJ defaults to 1:1. Always set it. Composition changes completely with ratio.",
+      "best_terms": [
+        "--ar 16:9", "--ar 9:16", "--ar 4:5", "--ar 3:2", "--ar 1:1"
+      ]
+    },
+    "lighting": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "Lighting terms in MJ are short keywords, not sentences. Comma-separate them.",
+      "best_terms": [
+        "rim light", "golden hour", "studio softbox", "harsh shadows",
+        "backlit", "volumetric", "god rays", "blue hour", "neon glow"
+      ]
+    },
+    "composition": {
+      "weight": 0.15,
+      "impact": "MEDIUM",
+      "description": "Describe the visual arrangement explicitly.",
+      "best_terms": [
+        "rule of thirds", "centered symmetry", "extreme foreground depth",
+        "shallow depth of field", "layered background"
+      ]
+    },
+    "keyword_format": {
+      "weight": 0.10,
+      "impact": "MEDIUM",
+      "description": "Comma-separated descriptive terms outperform full sentences in MJ. The model treats commas as concept separators."
+    },
+    "parameters": {
+      "weight": 0.10,
+      "impact": "MEDIUM",
+      "description": "MJ-native parameters that control output style and quality.",
+      "best_terms": ["--s 750", "--chaos 20", "--q 2", "--style raw", "--v 6"]
+    }
+  },
+
+  "power_patterns": [
+    "[Subject], [environment/context], [style reference], [lighting terms], [mood], [camera/lens], --ar [ratio] --s [value]",
+    "Portrait of [subject], [lighting], [color palette], by [photographer], shot on [film/camera], --ar 4:5 --s 500"
+  ],
+
+  "antipatterns": [
+    "Full sentences — 'I want to create an image of a woman standing in a forest' → should be: 'woman, ancient forest, dappled light, by Ansel Adams, --ar 3:2'",
+    "Conversational language — 'please make', 'I want', 'can you' — MJ ignores these entirely",
+    "Too many competing styles — 2+ artist names fight each other. Pick one.",
+    "No --ar — you're leaving composition to chance.",
+    "Generic color terms — 'colorful', 'vibrant' — instead: 'teal and orange color grade', 'warm golden palette', 'desaturated with cyan tones'"
+  ],
+
+  "examples": {
+    "strong": [
+      "elderly woman, morning market, Hong Kong, candid street photography, natural window light, shot on Leica M6, Kodak Portra 400, by Vivian Maier, --ar 3:2 --s 600",
+      "abandoned Victorian greenhouse, overgrown, mist, dramatic shaft of sunlight through broken glass, photorealistic, by Gregory Crewdson, shallow depth of field, --ar 16:9 --s 750 --chaos 10"
+    ],
+    "weak": [
+      "A beautiful woman standing in a forest with nice colors and good lighting.",
+      "Make a cool photo of a city at night."
+    ]
+  }
+}

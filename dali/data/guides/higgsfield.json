@@ -1,0 +1,74 @@
+{
+  "model": "higgsfield",
+  "display_name": "Higgsfield AI",
+  "medium": "video",
+  "overview": "Higgsfield's core superpower is physics-driven motion — cloth, hair, fluid, fire, smoke all respond to genuine physical simulation. The community has found that describing the physical world in motion (not just 'windy' but 'fabric billowing violently in wind gusts, pulling at the hem') produces dramatically better results. Character consistency is a key strength — use consistency language when you need a subject to hold across time.",
+
+  "dimensions": {
+    "motion_physics": {
+      "weight": 0.30,
+      "impact": "CRITICAL",
+      "description": "Describe the physics of materials in motion. This is Higgsfield's #1 differentiator. Reddit practitioners consistently rate physics-language prompts 2-3x better.",
+      "best_terms": [
+        "fabric billowing", "hair whipping in wind", "cloth draping",
+        "water splashing", "smoke curling upward", "fire licking",
+        "liquid flowing", "particles dispersing", "dress lifting"
+      ]
+    },
+    "consistency_cues": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "When character identity matters across the clip, add explicit consistency language.",
+      "best_terms": [
+        "consistent character", "same face throughout",
+        "maintaining identity", "stable subject", "continuous shot"
+      ]
+    },
+    "camera_movement": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "Higgsfield separates camera motion from subject motion well. Be explicit.",
+      "best_terms": [
+        "static camera", "slow push forward", "orbit", "handheld",
+        "tracking alongside", "tilting up to reveal"
+      ]
+    },
+    "style": {
+      "weight": 0.15,
+      "impact": "MEDIUM",
+      "description": "Higgsfield has named style presets that work well. Reference film/aesthetic style.",
+      "best_terms": [
+        "cinematic", "editorial fashion", "music video", "documentary",
+        "high-fashion", "dramatic film lighting"
+      ]
+    },
+    "subject_detail": {
+      "weight": 0.15,
+      "impact": "MEDIUM",
+      "description": "Physical description of the subject — clothing, materials, body language — all feed the physics simulation."
+    }
+  },
+
+  "power_patterns": [
+    "[Subject in detailed physical description] [doing action] in [environment]. [Physical material in motion — cloth/hair/liquid]. [Camera]. [Lighting].",
+    "Cinematic [style]. [Character description with material details] [motion]. [Physics descriptor — billowing/whipping/draping]. [Camera movement]. [Atmosphere]."
+  ],
+
+  "antipatterns": [
+    "'Stay still' — Higgsfield defaults to motion. Asking for stillness creates weird micro-movement artifacts instead of clean holds.",
+    "Vague physics — 'it's windy' vs 'gusts pulling at the fabric hem, hair horizontal' — the second is 10x better.",
+    "Too many characters — Higgsfield works best with 1-2 primary subjects. Group scenes get messy fast.",
+    "Contradictory directions — 'moving left and right simultaneously' breaks the simulation."
+  ],
+
+  "examples": {
+    "strong": [
+      "Editorial fashion. A woman in a white silk dress stands at the edge of a cliff. Strong wind. The dress billows and whips dramatically, fabric pulling and releasing. Hair streaming horizontal. Camera: static wide, slowly tilting up. Golden hour backlight. Cinematic, high-fashion.",
+      "Cinematic documentary. An old man tends a fire at night. Sparks rise in spirals. Smoke curls upward toward stars. Embers drift. Camera: handheld, slowly circling. Orange firelight against dark trees. Meditative, quiet."
+    ],
+    "weak": [
+      "A woman standing looking cool.",
+      "Fire scene at night with some smoke."
+    ]
+  }
+}

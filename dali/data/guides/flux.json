@@ -1,0 +1,77 @@
+{
+  "model": "flux",
+  "display_name": "Flux (Black Forest Labs)",
+  "medium": "image",
+  "overview": "Flux is the most technically photographic of the image models. It rewards prompts that read like a photography brief — camera body, lens, focal length, lighting setup, film stock. The r/StableDiffusion and Civitai communities have extensively mapped its vocabulary: specific equipment references trigger the corresponding aesthetic almost instantly. It also takes negative prompts seriously, which no other major model does as reliably.",
+
+  "dimensions": {
+    "style_specificity": {
+      "weight": 0.30,
+      "impact": "CRITICAL",
+      "description": "Camera body, lens, film stock — these single terms unlock huge style shifts in Flux.",
+      "best_terms": [
+        "shot on Leica M10", "Hasselblad 500CM", "Fujifilm GFX",
+        "Canon 5D Mark IV", "50mm f/1.4", "85mm f/1.8",
+        "Kodak Portra 400", "Fujifilm Velvia", "Ilford HP5",
+        "35mm film", "medium format", "large format"
+      ]
+    },
+    "technical_photography": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "Photography technical terms that map to real lens/sensor physics.",
+      "best_terms": [
+        "f/1.8 bokeh", "f/8 sharp focus throughout", "ISO 800 grain",
+        "shallow depth of field", "deep depth of field",
+        "chromatic aberration", "lens flare", "vignetting"
+      ]
+    },
+    "lighting": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "Flux responds to both studio and natural lighting setups described precisely.",
+      "best_terms": [
+        "Rembrandt lighting", "butterfly lighting", "split lighting",
+        "golden hour, 10 minutes before sunset", "softbox 45 degrees",
+        "bare bulb harsh shadow", "overcast diffused flat light"
+      ]
+    },
+    "negative_prompt": {
+      "weight": 0.15,
+      "impact": "HIGH",
+      "description": "Flux is one of the few models that genuinely uses negative prompts. Always add one.",
+      "best_terms": [
+        "no text", "no watermark", "no people in background",
+        "not blurry", "not overexposed", "avoid harsh noise"
+      ]
+    },
+    "subject_detail": {
+      "weight": 0.15,
+      "impact": "MEDIUM",
+      "description": "Flux rewards verbosity unlike MJ. Describe clothing texture, material, background details."
+    }
+  },
+
+  "power_patterns": [
+    "Portrait photograph of [subject], [clothing/materials], [location], [lighting setup], shot on [camera], [lens], [film/sensor], [color grade]. Negative: [exclusions].",
+    "Product photography: [item description], [surface/backdrop], [lighting direction and quality], [camera/lens], sharp focus, [style]. Negative: no text, no hands."
+  ],
+
+  "antipatterns": [
+    "No negative prompt — Flux takes it seriously and outputs improve consistently when you tell it what to avoid.",
+    "Vague style references — 'artistic' or 'beautiful' do nothing. 'Shot on Hasselblad, medium format, soft' does everything.",
+    "Skipping lens/camera — these are the fastest style lever in Flux and most prompts leave them out.",
+    "Conflicting technical terms — 'f/1.4 bokeh' AND 'everything sharp throughout' confuses the depth of field simulation."
+  ],
+
+  "examples": {
+    "strong": [
+      "Environmental portrait of a chef in a commercial kitchen, flour on apron, intense expression, harsh overhead fluorescent mixed with window fill light, shot on Canon 5D Mark IV, 35mm f/2, ISO 1600, grain. Negative: no text, no other people in frame.",
+      "Product photography: a glass perfume bottle, black velvet surface, single spotlight from above-left, long shadow, deep teal background, shot on Hasselblad, 100mm macro, perfectly sharp, commercial quality. Negative: no dust, no reflections of crew."
+    ],
+    "weak": [
+      "A nice photo of a chef cooking.",
+      "A beautiful perfume bottle on a dark background."
+    ]
+  }
+}

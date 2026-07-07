@@ -1,0 +1,75 @@
+{
+  "model": "imagen",
+  "display_name": "Google Imagen",
+  "medium": "image",
+  "overview": "Imagen is Google's photorealistic image model — it thinks in photography terms. 'Taken on' and 'shot on' are powerful triggers. Color palette descriptions, lighting setups, and photography genre terms all work cleanly. Unlike Midjourney, full descriptive phrases work well (not just keywords). Practitioners report that Imagen excels at product and commercial photography briefs.",
+
+  "dimensions": {
+    "style": {
+      "weight": 0.25,
+      "impact": "HIGH",
+      "description": "Photography style, genre, and aesthetic framing. 'Shot on' triggers strong photographic rendering.",
+      "best_terms": [
+        "shot on", "taken on", "documentary photograph",
+        "editorial photography", "commercial product shot",
+        "fine art photography", "street photography", "portrait photography"
+      ]
+    },
+    "lighting": {
+      "weight": 0.25,
+      "impact": "HIGH",
+      "description": "Imagen reads both natural and studio lighting setups precisely.",
+      "best_terms": [
+        "golden hour backlight", "Rembrandt lighting", "flat studio",
+        "harsh noon sun", "overcast diffused", "neon glow",
+        "candlelight warm", "blue twilight", "window light fill"
+      ]
+    },
+    "camera_language": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "Camera body, lens type, film stock all significantly shift output.",
+      "best_terms": [
+        "taken on Fujifilm GFX 100", "Leica Q2", "shot on 85mm portrait lens",
+        "medium format", "large format", "35mm analog"
+      ]
+    },
+    "color_palette": {
+      "weight": 0.15,
+      "impact": "MEDIUM",
+      "description": "Color grade and palette descriptions shift the mood of the entire output.",
+      "best_terms": [
+        "warm golden tones", "cool desaturated blues", "teal and orange",
+        "moody low saturation", "vibrant saturated", "muted earthy palette",
+        "high contrast black and white"
+      ]
+    },
+    "subject_detail": {
+      "weight": 0.15,
+      "impact": "MEDIUM",
+      "description": "Concrete physical description of subject, materials, textures."
+    }
+  },
+
+  "power_patterns": [
+    "[Photography genre] photograph of [subject description], [location/context], [lighting], [color palette], taken on [camera], [mood].",
+    "[Product/subject], [surface/background], [lighting direction and quality], [color grade], shot on [camera and lens], commercial photography."
+  ],
+
+  "antipatterns": [
+    "Illustrated/painted/drawn — Imagen is a photorealistic model. Artistic style terms confuse it.",
+    "No lighting description — Imagen defaults to mediocre generic lighting without direction.",
+    "No camera reference — one of the fastest levers in Imagen and most prompts skip it entirely."
+  ],
+
+  "examples": {
+    "strong": [
+      "Documentary photograph of an elderly fisherman repairing a net on a harbor dock at dawn. Natural overcast morning light. Warm skin tones against grey sky. Shot on Leica M10, 35mm. Quiet, dignified.",
+      "Product photograph: a ceramic coffee mug, earthy terracotta glaze, on a weathered oak surface. Single window light from left, soft shadow to the right. Warm morning palette. Shot on Hasselblad, 80mm macro. Commercial, clean."
+    ],
+    "weak": [
+      "A nice photo of an old man fishing.",
+      "A coffee mug on a table."
+    ]
+  }
+}

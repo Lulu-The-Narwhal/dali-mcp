@@ -1,0 +1,79 @@
+{
+  "model": "veo3",
+  "display_name": "Google Veo 3.1",
+  "medium": "video",
+  "overview": "Veo 3 is Google's photorealistic video model. It responds exceptionally well to cinematic camera direction and physical motion language. Think of it as directing a live-action shoot — give it a DP's brief, not a writer's description. The single highest-leverage thing you can do: specify camera movement.",
+
+  "dimensions": {
+    "camera_language": {
+      "weight": 0.25,
+      "impact": "CRITICAL",
+      "description": "Camera movement and shot type are the #1 lever in Veo 3. Practitioners consistently report 40-60% quality jumps just from adding camera direction.",
+      "best_terms": [
+        "slow dolly push", "orbital camera", "handheld", "static wide",
+        "extreme close-up", "crane shot", "low-angle tracking",
+        "push in toward", "pull back to reveal", "360 orbit"
+      ]
+    },
+    "motion_description": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "Physical motion of subjects and environment. Use adverbs — how something moves matters as much as what moves.",
+      "best_terms": [
+        "slowly drifting", "cascading down", "billowing gently",
+        "rushing past", "flickering", "pulsing", "rippling outward"
+      ]
+    },
+    "lighting": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "Veo 3 nails cinematic lighting when it's described explicitly. Without it, outputs tend toward flat studio default.",
+      "best_terms": [
+        "golden hour light", "dramatic overhead spotlight",
+        "neon-lit", "volumetric fog", "backlit silhouette",
+        "overcast diffused", "harsh midday shadow"
+      ]
+    },
+    "subject_specificity": {
+      "weight": 0.20,
+      "impact": "MEDIUM",
+      "description": "Concrete physical descriptions. Not 'a woman' but 'a woman in her 40s, dark coat, moving through a crowd'."
+    },
+    "style_anchor": {
+      "weight": 0.10,
+      "impact": "MEDIUM",
+      "description": "A single cinematic style reference frames the entire render. Keep it to 1-2 terms.",
+      "best_terms": ["cinematic", "documentary", "editorial", "music video aesthetic"]
+    },
+    "prompt_length": {
+      "weight": 0.05,
+      "impact": "LOW",
+      "description": "Optimal: 50-120 words. Shorter = underspecified. Longer = model loses focus."
+    }
+  },
+
+  "power_patterns": [
+    "[Style/tone]. [Subject + location + context]. [Camera movement]. [Subject motion]. [Lighting]. [Atmosphere].",
+    "Cinematic [genre]. [Subject description] doing [action] in [environment]. [Camera shot type], [camera movement]. [Lighting description]. [Mood].",
+    "Slow [camera movement] of [subject] [verb+adverb] through [environment]. [Lighting]. [Atmosphere]. No text."
+  ],
+
+  "antipatterns": [
+    "Cartoon/anime/illustrated/drawn — Veo 3 is a live-action photorealistic model. These terms confuse it or produce garbage.",
+    "Too many subjects at once — Veo 3 works best with a clear primary subject. Crowd scenes need more specificity or they collapse.",
+    "Contradictory motion — 'fast and slow' or 'static but moving' creates tearing artifacts.",
+    "Abstract concepts without visual anchors — 'the feeling of freedom' needs a concrete image: 'a bird bursting from an open hand into sky'.",
+    "Extremely long prompts (200+ words) — Veo 3 seems to average across competing descriptions rather than following the full structure."
+  ],
+
+  "examples": {
+    "strong": [
+      "Cinematic music video aesthetic. A woman in her 30s, silver jacket, stands motionless in the center of an empty wet street at 3am. Neon reflections shimmer in the puddles. Slow orbital camera movement, low angle, gradually tightening toward her face. Her breath visible in cold air. Backlit by a distant streetlamp. Melancholic, atmospheric.",
+      "Documentary style. An elderly fisherman pulls a net alone in a grey morning sea. Wide shot, slowly pushing in over his shoulder. Overcast light, cold blue tones. The net drips, waves chop lightly. Quiet, meditative. No music, no text."
+    ],
+    "weak": [
+      "A cool cinematic video of someone walking.",
+      "Make a video showing a woman feeling free and happy in nature with beautiful colors."
+    ]
+  }
+}
