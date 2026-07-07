@@ -4,7 +4,7 @@ Dali by Lulu — creative intelligence MCP for AI generation agents.
 Score your prompt before you spend the credit.
 
 This is the open-source MCP client. Tool definitions live here.
-Intelligence (scoring engine, Gemini enhancement, Memgraph graph brain) runs
+Intelligence (scoring engine, Gemini enhancement, V3 graph brain) runs
 on the hosted server at dali.getlulu.dev.
 
 Connect (recommended):
@@ -45,15 +45,25 @@ from .client import call
 mcp = FastMCP(
     name="dali",
     instructions=(
-        "Dali is Lulu's creative intelligence MCP — use it BEFORE generating any image or video. "
-        "It scores prompts against the target model's native language, tells you what's missing, "
-        "and rewrites the prompt using AI so you get a better result on the first try. "
-        "Typical flow: score_prompt → enhance_prompt → generate. "
-        "V3 graph tools: creative_patterns() shows community A-grade patterns; "
-        "community_benchmark() compares your prompt to top scorers. "
-        "Supported models: veo3, higgsfield, kling, sora, midjourney, flux, imagen. "
-        "See your scoring history with: my_story(). "
-        "Read model guides at: creative://guide/{model}"
+        "Dali is creative intelligence for AI generation. Use it BEFORE generating any image or video.\n\n"
+        "PROACTIVE WORKFLOW (always follow this):\n"
+        "1. User expresses any image/video generation intent → IMMEDIATELY call score_prompt(prompt, model)\n"
+        "2. Grade A or B (score ≥ 70) → proceed with the prompt\n"
+        "3. Grade C, D, or F (score < 70) → call enhance_prompt(prompt, model) automatically, "
+        "   show before/after scores, use the enhanced prompt\n"
+        "4. NEVER generate without scoring first\n\n"
+        "TOOLS:\n"
+        "- analyze_intent(prompt) — parse intent signals before scoring\n"
+        "- score_prompt(prompt, model) — grade 0–100 with what's missing\n"
+        "- enhance_prompt(prompt, model) — AI rewrite in the model's native language\n"
+        "- creative_patterns(model) — community A-grade patterns from the graph brain\n"
+        "- community_benchmark(prompt, model) — compare vs top scorers\n"
+        "- my_story() — personal scoring history and creative DNA\n"
+        "- list_models() — all supported models\n\n"
+        "SUPPORTED MODELS: veo3, higgsfield, kling, sora, midjourney, flux, imagen\n"
+        "ALIASES: veo→veo3, mj→midjourney, sd→flux\n\n"
+        "RESOURCES: creative://guide/{model} — full native-language guide\n\n"
+        "INSTALL GUIDE: dali.getlulu.dev/install"
     ),
 )
 
@@ -134,7 +144,7 @@ def creative_patterns(
     Community graph intelligence: which patterns consistently produce high-grade prompts
     for this model?
 
-    Powered by the Dali V3 Memgraph knowledge graph — every prompt scored by every
+    Powered by the Dali V3 graph brain — every prompt scored by every
     Dali user contributes to this. The more community usage, the richer the signal.
 
     Also returns: enhancement unlocks (which patterns added during enhance_prompt
