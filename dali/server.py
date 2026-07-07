@@ -359,8 +359,17 @@ def models_overview() -> str:
 # ── Entry point ────────────────────────────────────────────────────────────
 
 def main():
-    """Run locally via stdio (self-hosted mode)."""
-    mcp.run()
+    """
+    Entry point.
+    - DALI_TRANSPORT=http  → streamable-http on PORT (Cloud Run)
+    - default             → stdio (self-hosted / Claude Code local)
+    """
+    transport = os.environ.get("DALI_TRANSPORT", "stdio")
+    if transport == "http":
+        port = int(os.environ.get("PORT", 8080))
+        mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
+    else:
+        mcp.run()
 
 
 if __name__ == "__main__":

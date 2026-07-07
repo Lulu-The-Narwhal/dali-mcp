@@ -1,80 +1,87 @@
 {
   "model": "midjourney",
-  "display_name": "Midjourney",
+  "display_name": "Midjourney V6/V7",
   "medium": "image",
-  "overview": "Midjourney speaks in nouns and adjectives, not sentences. The r/midjourney community has established that style references (artist names, art movements, film stocks) do more work than descriptive sentences. Parameters are first-class — --ar, --s, --chaos are not optional. Think of it as tagging a concept, not writing a brief.",
+  "overview": "Midjourney V6+ handles BOTH keyword lists and natural language, but natural language now works better for complex prompts. Artist name placement matters critically: 'portrait by [artist]' outperforms '[artist]'s portrait of...' — the model gives more weight to earlier terms. V6 can go ~7 descriptive elements before losing focus. Image weight (--iw) now goes 0.1-3.0. Style references (artist names, art movements) remain the single highest-leverage lever — one strong reference changes everything.",
 
   "dimensions": {
     "style_reference": {
       "weight": 0.25,
       "impact": "CRITICAL",
-      "description": "Naming a photographer, painter, director, or art movement is the single highest-leverage lever in Midjourney. 'by Gregory Crewdson' changes everything about the output.",
+      "description": "Artist name, art movement, film stock, or medium. Put it EARLY in the prompt — Midjourney gives more weight to earlier terms. One strong reference outperforms five vague ones.",
       "best_terms": [
-        "by [artist name]", "in the style of", "shot on Kodak Portra",
-        "analog photography", "Hasselblad", "35mm film", "Leica M",
-        "impressionist", "art nouveau", "Bauhaus", "film noir"
+        "by [photographer name]", "by [painter]", "in the style of",
+        "shot on Kodak Portra 400", "shot on Leica M6", "35mm analog",
+        "oil painting", "watercolor", "Bauhaus", "art nouveau"
+      ]
+    },
+    "prompt_structure": {
+      "weight": 0.20,
+      "impact": "HIGH",
+      "description": "V6+ responds well to natural language. Word order affects output significantly without a fixed seed. Structure: [subject + key descriptor], [environment/context], [style reference], [lighting], [parameters]. Don't exceed ~7 distinct elements before Midjourney starts dropping details.",
+      "best_terms": [
+        "Naturally described scene with artist reference early in prompt"
       ]
     },
     "aspect_ratio": {
       "weight": 0.20,
       "impact": "HIGH",
-      "description": "Without --ar, MJ defaults to 1:1. Always set it. Composition changes completely with ratio.",
+      "description": "Without --ar, Midjourney defaults to 1:1 and composition suffers. Always set it. It changes the entire framing.",
       "best_terms": [
-        "--ar 16:9", "--ar 9:16", "--ar 4:5", "--ar 3:2", "--ar 1:1"
+        "--ar 16:9", "--ar 9:16", "--ar 4:5", "--ar 3:2", "--ar 2:3"
       ]
     },
     "lighting": {
-      "weight": 0.20,
-      "impact": "HIGH",
-      "description": "Lighting terms in MJ are short keywords, not sentences. Comma-separate them.",
+      "weight": 0.15,
+      "impact": "MEDIUM",
+      "description": "Short specific lighting terms. Put near the end after subject and style reference.",
       "best_terms": [
         "rim light", "golden hour", "studio softbox", "harsh shadows",
         "backlit", "volumetric", "god rays", "blue hour", "neon glow"
       ]
     },
-    "composition": {
+    "parameters": {
       "weight": 0.15,
       "impact": "MEDIUM",
-      "description": "Describe the visual arrangement explicitly.",
+      "description": "V6+ parameters that control output. --iw now ranges 0.1-3.0 (was 0.2-2.0 in V5).",
       "best_terms": [
-        "rule of thirds", "centered symmetry", "extreme foreground depth",
-        "shallow depth of field", "layered background"
+        "--s 500", "--s 750", "--chaos 10", "--chaos 30",
+        "--style raw", "--iw 1.0", "--iw 2.0", "--v 6"
       ]
     },
-    "keyword_format": {
-      "weight": 0.10,
-      "impact": "MEDIUM",
-      "description": "Comma-separated descriptive terms outperform full sentences in MJ. The model treats commas as concept separators."
-    },
-    "parameters": {
-      "weight": 0.10,
-      "impact": "MEDIUM",
-      "description": "MJ-native parameters that control output style and quality.",
-      "best_terms": ["--s 750", "--chaos 20", "--q 2", "--style raw", "--v 6"]
+    "composition": {
+      "weight": 0.05,
+      "impact": "LOW",
+      "description": "Visual arrangement — describe when composition is critical to the concept.",
+      "best_terms": [
+        "extreme foreground depth", "centered symmetry", "shallow depth of field",
+        "layered background", "rule of thirds"
+      ]
     }
   },
 
   "power_patterns": [
-    "[Subject], [environment/context], [style reference], [lighting terms], [mood], [camera/lens], --ar [ratio] --s [value]",
-    "Portrait of [subject], [lighting], [color palette], by [photographer], shot on [film/camera], --ar 4:5 --s 500"
+    "[Subject with key descriptors], [environment/context], by [artist name], [lighting], [mood], --ar [ratio] --s [value]",
+    "Portrait of [subject description], [setting], [lighting descriptor], by [photographer], shot on [camera/film], --ar 4:5 --s 500"
   ],
 
   "antipatterns": [
-    "Full sentences — 'I want to create an image of a woman standing in a forest' → should be: 'woman, ancient forest, dappled light, by Ansel Adams, --ar 3:2'",
-    "Conversational language — 'please make', 'I want', 'can you' — MJ ignores these entirely",
-    "Too many competing styles — 2+ artist names fight each other. Pick one.",
-    "No --ar — you're leaving composition to chance.",
-    "Generic color terms — 'colorful', 'vibrant' — instead: 'teal and orange color grade', 'warm golden palette', 'desaturated with cyan tones'"
+    "Putting artist name late in the prompt — V6 weights early terms more. Put the reference within the first 5 words.",
+    "More than 7 elements — Midjourney V6 starts dropping details after ~7 distinct descriptors. Prioritize ruthlessly.",
+    "No --ar — you're leaving composition to chance. Always set it.",
+    "Two competing artist styles — they cancel each other out. Pick one strong reference.",
+    "Generic color terms ('colorful', 'vibrant') — use specific palette language: 'teal and orange grade', 'warm golden palette', 'desaturated with cyan tones'.",
+    "Image prompt + name of person — adding a well-known person's name to their image weakens the influence of the text prompt. Omit the name."
   ],
 
   "examples": {
     "strong": [
-      "elderly woman, morning market, Hong Kong, candid street photography, natural window light, shot on Leica M6, Kodak Portra 400, by Vivian Maier, --ar 3:2 --s 600",
-      "abandoned Victorian greenhouse, overgrown, mist, dramatic shaft of sunlight through broken glass, photorealistic, by Gregory Crewdson, shallow depth of field, --ar 16:9 --s 750 --chaos 10"
+      "elderly woman in a morning market, Hong Kong, by Vivian Maier, natural window light, candid, shot on Leica M6, Kodak Portra 400, --ar 3:2 --s 600",
+      "abandoned Victorian greenhouse, overgrown with vines, dramatic shaft of sunlight through broken glass, by Gregory Crewdson, cold fog, --ar 16:9 --s 750 --chaos 10"
     ],
     "weak": [
-      "A beautiful woman standing in a forest with nice colors and good lighting.",
-      "Make a cool photo of a city at night."
+      "A beautiful, amazing, vibrant, colorful, artistic woman standing in a forest with gorgeous dramatic lighting and nice composition.",
+      "Cool amazing photo of a city at night, colorful and dramatic and moody and cinematic and beautiful."
     ]
   }
 }
