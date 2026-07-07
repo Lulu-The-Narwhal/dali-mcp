@@ -17,29 +17,30 @@
 Most AI generation failures are prompt failures. You can't tell the difference until after you've burned the token. Dali scores your prompt *before* you generate — so you never waste a credit on a bad prompt again.
 
 ```
-You: "make a cinematic video of a woman walking in tokyo at night"
+You: "make a video ad for our glass serum bottle"
 
 dali::score_prompt(prompt, "veo3")
-→ 34/100  Grade: D
-→ Missing: camera movement, lighting description, motion adverb
-→ Verdict: High probability of a generic result. Enhance first.
+→ 8/100  Grade: F
+→ no camera move · no motion · no lighting · 8 words
+→ Verdict: Generic stock footage guaranteed. Enhance first.
 
 dali::enhance_prompt(prompt, "veo3")
 → Returns a rewrite brief — YOUR LLM writes the enhanced prompt:
 
-  ① lead with camera movement — Veo 3's #1 lever: "Slow dolly push"
-  ② describe motion with adverbs: "walks slowly", "breath drifts"
-  ③ lighting: type + quality — "warm sodium-vapor glow", "wet street reflection"
-  ↳ [Camera]. [Subject + motion]. [Location]. [Lighting]. [Mood]. [No text.]
+  ① lead with camera — Veo 3's #1 lever: "Slow dolly", "Orbital push"
+  ② describe physics: "a drop falls", "liquid ripples", "glass refracts"
+  ③ lighting type + quality: "warm backlight", "rim-lit edges"
+  ↳ [Camera]. [Subject + motion]. [Lighting]. [Mood]. [No text.]
 
 ✦ Claude rewrites using the brief:
 
-  "Slow dolly push following a woman in her 30s walking through neon-lit
-   Shinjuku at 3am. Rain-wet streets reflect pink and blue. Breath visible
-   in cold air. Warm sodium-vapor glow above, neon below. Melancholic,
-   atmospheric. No text."
+  "Slow orbital push around a glass serum bottle on white marble. A single
+   amber drop falls in extreme slow motion, catching warm backlight. Macro:
+   liquid gold ripples outward from impact. Rim-lit edges, soft studio
+   diffusion. Premium, clinical. No text."
 
-→ Score after: 87/100  Grade: A  ✓ Safe to generate.
+dali::score_prompt(enhanced, "veo3")
+→ 91/100  Grade: A  ✓ Safe to generate.
 ```
 
 ---
@@ -175,6 +176,9 @@ creative://models           → All models overview
 ## Contributing
 
 Model guides live in `dali/data/guides/{model}.json` on the hosted server. Found practitioner patterns that consistently produce high-grade results? Open an issue with the model, the pattern, and a sample prompt + result. The best contributions come from Reddit, Discord, and YouTube — real practitioners, not official docs.
+
+→ **[Prompt best practices by model](docs/best-practices.md)** — cheat sheets, do/don't tables, top patterns per model
+→ **[Dali creative flow skill](skills/dali-creative-flow.md)** — install this skill so your LLM follows the score → enhance → generate workflow automatically
 
 ---
 

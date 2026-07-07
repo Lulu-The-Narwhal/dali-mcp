@@ -15,53 +15,86 @@ Also activate when a user pastes a raw prompt without asking to score it — sco
 
 ### Step 1: Detect model
 If the user doesn't specify a model, infer from context:
-- Video intent → default to `veo3`
-- Realistic image → `flux` or `imagen`
-- Artistic/stylized → `midjourney`
-- Character animation → `kling` or `higgsfield`
-- Narrative video → `sora`
 
-If still ambiguous, ask: "Which model are you targeting? (veo3, midjourney, flux, kling, sora, imagen, higgsfield)"
+**Video:**
+- Cinematic brand/narrative → `veo3`
+- UGC, TikTok, social → `seedance`
+- Character animation, facial performance → `kling`
+- VFX, motion-first → `runway`
+- Native audio, 4K → `wan`
+- Cinematic storytelling with camera control → `minimax`
+- Physics-driven (cloth, hair, fluid) → `higgsfield`
+
+**Image:**
+- Photorealistic, product photography → `flux`
+- Artistic, editorial, stylized → `midjourney`
+- Typography, logos, text-in-image → `ideogram`
+- IP-safe commercial → `firefly`
+
+If still ambiguous: "Which model are you targeting?" and list: `veo3, seedance, kling, runway, wan, minimax, higgsfield, flux, midjourney, ideogram, firefly`
 
 ### Step 2: Score immediately
 Call `score_prompt(prompt=<prompt>, model=<model>)`.
 
 Present concisely:
 - Grade + score: "**Grade C — 58/100**"
-- 2–3 bullet points of what's missing
+- 2–3 bullet points of what's missing (from `missing` array)
 - One-line verdict
 
 ### Step 3: Decision
+
 | Grade | Score | Action |
 |-------|-------|--------|
-| A     | 90+   | Confirm and generate |
-| B     | 70–89 | Confirm and generate |
-| C     | 50–69 | Offer to enhance. If user agrees or doesn't object → enhance |
-| D/F   | < 50  | Enhance automatically. Show before/after. Use enhanced prompt. |
+| A | 90+ | Confirm and generate |
+| B | 70–89 | Confirm and generate |
+| C | 50–69 | Offer to enhance. If user agrees or doesn't object → enhance |
+| D/F | < 50 | Enhance automatically. Show before/after. Use enhanced prompt. |
 
 ### Step 4: Enhance (when triggered)
 Call `enhance_prompt(prompt=<prompt>, model=<model>)`.
 
-Show:
-- Score delta: "58 → 84 (+26 pts)"
-- Enhanced prompt in a code block
-- What changed (key additions)
+The tool returns a **rewrite brief** — not a finished prompt. YOU write the enhanced prompt using it.
 
-Then confirm: "Ready to generate with the enhanced prompt?"
+The brief contains:
+- `native_language_rules` — how this model thinks
+- `structure_template` — the prompt format to follow
+- `priority_fixes` — what to add, by weight × gap
+- `length_target` — target word count
+- `what_to_add` — specific missing elements
+
+**Your job**: write the enhanced prompt using these rules. Then call `score_prompt` on what you wrote to verify improvement.
+
+Show:
+- Score delta: "8 → 91 (+83 pts)"
+- What changed (key additions from the brief)
+- Enhanced prompt in a code block
+- Score verification result
 
 ### Step 5: Generate
-Always use the highest-scoring prompt. If enhanced, use `enhanced_prompt` from the response.
+Always use the highest-scoring prompt (your enhanced version, not a raw API field).
 
 ## Output format (keep it tight)
 
 ```
-Scored: **Grade C — 58/100** for Veo3
-Missing: cinematic camera movement, lighting style, motion description
-Verdict: Watchable but flat. Enhancing automatically...
+Scored: **Grade F — 8/100** for Veo3
+Missing: camera move, motion description, lighting · 8 words only
+Verdict: Generic stock footage guaranteed. Enhancing...
 
-Enhanced: **Grade B — 82/100** (+24 pts)
-```<enhanced prompt here>```
-Ready to generate?
+Brief applied:
+  ① camera move first: "Slow orbital push"
+  ② physics: "drop falls", "liquid ripples", "glass refracts"
+  ③ lighting: "warm backlight", "rim-lit edges"
+
+Enhanced prompt:
+```
+"Slow orbital push around a glass serum bottle on white marble. A single amber
+drop falls in extreme slow motion, catching warm backlight. Macro: liquid gold
+ripples outward from impact. Rim-lit edges, soft studio diffusion. Premium,
+clinical. No text."
+```
+
+Re-scored: **Grade A — 91/100** ✓ Safe to generate.
+Ready to generate with this?
 ```
 
 ## Rules
@@ -71,9 +104,12 @@ Ready to generate?
 - Do ask permission to enhance if grade is C (auto-enhance D/F)
 - Never dump raw JSON — translate to human-readable output
 - Lead with grade + missing — not the full dimension breakdown
+- **You write the enhanced prompt from the brief** — don't look for an `enhanced_prompt` field in the response
+- Always re-score your enhanced version to show the delta
 
 ## Community tools (bonus)
 
-- Grade C or below after scoring → call `community_benchmark(prompt, model)` to show missing A-grade patterns
+- Grade C or below → call `community_benchmark(prompt, model)` to show missing A-grade patterns
 - "What makes a good [model] prompt?" → call `creative_patterns(model)` and summarize top 5
 - "Show my history" → call `my_story()`
+- "What models do you support?" → call `list_models()`
