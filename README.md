@@ -13,6 +13,8 @@
 </p>
 
 <p align="center">
+  <a href="https://pypi.org/project/dali-mcp/"><img src="https://img.shields.io/pypi/v/dali-mcp.svg" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/dali-mcp/"><img src="https://img.shields.io/pypi/dm/dali-mcp.svg" alt="PyPI downloads"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+"></a>
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-server-6b5bff.svg" alt="MCP Server"></a>
@@ -89,8 +91,7 @@ claude mcp add --transport http dali https://dali.getlulu.dev/mcp
 **Self-hosted — local, no auth required:**
 
 ```bash
-# PyPI package is not published yet — install directly from source for now
-pip install git+https://github.com/Lulu-The-Narwhal/dali-mcp
+pip install dali-mcp
 claude mcp add dali -- python -m dali.server
 ```
 
