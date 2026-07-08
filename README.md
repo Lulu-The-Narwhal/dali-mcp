@@ -8,14 +8,22 @@
 <p align="center">
   <a href="https://dali.getlulu.dev"><strong>dali.getlulu.dev</strong></a> &nbsp;·&nbsp;
   <a href="https://dali.getlulu.dev/#install">Install</a> &nbsp;·&nbsp;
+  <a href="https://dali.getlulu.dev/dashboard">Live stats</a> &nbsp;·&nbsp;
   <a href="https://getlulu.dev">Lulu</a>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+"></a>
+  <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-server-6b5bff.svg" alt="MCP Server"></a>
+  <a href="https://dali.getlulu.dev/dashboard"><img src="https://img.shields.io/badge/status-live-brightgreen.svg" alt="Live"></a>
 </p>
 
 ---
 
 **The prediction MCP that helps you avoid the AI generation tax.**
 
-Most AI generation failures are prompt failures. You can't tell the difference until after you've burned the token. Dali scores your prompt *before* you generate — so you never waste a credit on a bad prompt again.
+Most AI generation failures are prompt failures. You can't tell the difference until after you've burned the token. Dali scores your prompt *before* you generate — so you never waste a credit on a bad prompt again. Every wasted generation has a real cost (a Seedance retry is ~$6) — [the live dashboard](https://dali.getlulu.dev/dashboard) tracks what the community has saved by catching bad prompts before they burned a credit.
 
 ```
 You: "make a video ad for our glass serum bottle"
@@ -46,6 +54,18 @@ dali::score_prompt(enhanced, "veo3")
 
 ---
 
+## Contents
+
+- [Install](#install)
+- [Tools](#tools)
+- [Supported models](#supported-models)
+- [Platform supersets](#platform-supersets)
+- [Why model-specific?](#why-model-specific)
+- [MCP resources](#mcp-resources)
+- [Contributing](#contributing)
+
+---
+
 ## Install
 
 **Hosted MCP — connect once, scores every prompt:**
@@ -69,7 +89,8 @@ claude mcp add --transport http dali https://dali.getlulu.dev/mcp
 **Self-hosted — local, no auth required:**
 
 ```bash
-pip install dali-mcp
+# PyPI package is not published yet — install directly from source for now
+pip install git+https://github.com/Lulu-The-Narwhal/dali-mcp
 claude mcp add dali -- python -m dali.server
 ```
 
@@ -183,4 +204,4 @@ Model guides live in `dali/data/guides/{model}.json` on the hosted server. Found
 
 ---
 
-MIT License · Built by [Lulu](https://getlulu.dev) · [dali.getlulu.dev](https://dali.getlulu.dev)
+[MIT License](LICENSE) · Built by [Lulu](https://getlulu.dev) · [dali.getlulu.dev](https://dali.getlulu.dev)
