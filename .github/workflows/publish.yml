@@ -67,3 +67,36 @@ jobs:
           git add server.json
           git diff --staged --quiet || git commit -m "chore: sync server.json to ${GITHUB_REF_NAME} [skip ci]"
           git push origin HEAD:main
+
+  npm-publish:
+    needs: mcp-registry
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+      - name: Ensure npm supports trusted publishing (11.5.1+)
+        run: npm install -g npm@latest
+      - name: Sync npm/package.json version to release tag
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          npm --prefix npm pkg set version="$VERSION"
+      - name: Publish to npm
+        working-directory: npm
+        run: npm publish --access public
+      - name: Commit npm/package.json version sync
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add npm/package.json
+          git diff --staged --quiet || git commit -m "chore: sync npm/package.json to ${GITHUB_REF_NAME} [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main

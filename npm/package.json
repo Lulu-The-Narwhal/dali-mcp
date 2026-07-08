@@ -1,0 +1,23 @@
+{
+  "name": "dali-mcp",
+  "version": "0.5.2",
+  "description": "Dali by Lulu — creative intelligence MCP. Score your prompt before you spend the credit.",
+  "mcpName": "io.github.Lulu-The-Narwhal/dali",
+  "bin": {
+    "dali-mcp": "bin/dali-mcp.js"
+  },
+  "keywords": ["mcp", "model-context-protocol", "ai", "prompts", "creative", "image", "video", "midjourney", "veo", "higgsfield", "flux", "lulu"],
+  "license": "MIT",
+  "author": "Lulu",
+  "homepage": "https://dali.getlulu.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lulu-The-Narwhal/dali-mcp.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "mcp-remote": "^0.1.38"
+  }
+}
