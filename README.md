@@ -13,6 +13,10 @@
 </p>
 
 <p align="center">
+  <a href="https://www.producthunt.com/products/dali-by-lulu?utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-dali-by-lulu" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1191380&theme=light&t=1783534343769" alt="Dali by Lulu — featured on Product Hunt" width="250" height="54"></a>
+</p>
+
+<p align="center">
   <a href="https://pypi.org/project/dali-mcp/"><img src="https://img.shields.io/pypi/v/dali-mcp.svg" alt="PyPI version"></a>
   <a href="https://pypi.org/project/dali-mcp/"><img src="https://img.shields.io/pypi/dm/dali-mcp.svg" alt="PyPI downloads"></a>
   <a href="https://github.com/Lulu-The-Narwhal/dali-mcp/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
