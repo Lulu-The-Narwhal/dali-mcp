@@ -17,7 +17,7 @@ _DEFAULT_TIMEOUT = 30.0
 
 
 def _headers(token: Optional[str] = None) -> dict:
-    h = {"Content-Type": "application/json", "User-Agent": "dali-mcp/0.3.0"}
+    h = {"Content-Type": "application/json", "User-Agent": "dali-mcp/0.4.0"}
     tok = token or os.environ.get("DALI_TOKEN")
     if tok:
         h["Authorization"] = f"Bearer {tok}"
@@ -48,3 +48,20 @@ def call(endpoint: str, payload: dict, token: Optional[str] = None) -> dict:
         return {"error": f"API error {e.response.status_code}: {e.response.text[:200]}"}
     except Exception as e:
         return {"error": f"Could not reach Dali API: {e}"}
+
+
+def get_call(endpoint: str, token: Optional[str] = None) -> dict:
+    """GET from the Dali API. Returns the parsed JSON response."""
+    url = f"{DALI_API_BASE.rstrip('/')}/{endpoint.lstrip('/')}"
+    try:
+        with httpx.Client(timeout=_DEFAULT_TIMEOUT) as http:
+            resp = http.get(url, headers=_headers(token))
+            resp.raise_for_status()
+            return resp.json()
+    except httpx.TimeoutException:
+        return {"error": "Request timed out. Dali API may be under load — retry in a moment."}
+    except httpx.HTTPStatusError as e:
+        return {"error": f"API error {e.response.status_code}: {e.response.text[:200]}"}
+    except Exception as e:
+        return {"error": f"Could not reach Dali API: {e}"}
+

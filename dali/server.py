@@ -19,6 +19,11 @@ Tools:
   analyze_intent       — parse raw text into structured creative intent
   score_prompt         — score a prompt 0–100 for a specific model
   enhance_prompt       — Gemini-powered rewrite in the model's native language
+  score_and_enhance    — score + enhance in one call, returns both versions
+  track_enhancement    — record a before/after pair in the graph (trains community data)
+  suggest_generator    — pick the best model for concept + budget
+  score_variations     — rank multiple prompt variants in one call
+  dali_version         — server version + changelog
   creative_patterns    — community graph: A-grade patterns for this model (V3)
   community_benchmark  — how your prompt compares to community top scorers (V3)
   my_story             — your scoring history, model stats, creative DNA
@@ -57,6 +62,11 @@ mcp = FastMCP(
         "- analyze_intent(prompt) — parse intent signals before scoring\n"
         "- score_prompt(prompt, model) — grade 0–100 with what's missing\n"
         "- enhance_prompt(prompt, model) — AI rewrite in the model's native language\n"
+        "- score_and_enhance(prompt, generator) — score + enhance in one round-trip\n"
+        "- track_enhancement(original, enhanced, generator) — record A/B pair in graph\n"
+        "- suggest_generator(concept, budget_usd_max) — pick best model for concept + budget\n"
+        "- score_variations(prompts, generator) — rank multiple variants in one call\n"
+        "- dali_version() — server version + changelog\n"
         "- creative_patterns(model) — community A-grade patterns from the graph brain\n"
         "- community_benchmark(prompt, model) — compare vs top scorers\n"
         "- my_story() — personal scoring history and creative DNA\n"
@@ -201,6 +211,102 @@ def list_models() -> dict:
     """List all supported generation models with medium, creator, and core strength."""
     return call("/api/models", {})
 
+
+
+@mcp.tool()
+def score_and_enhance(
+    prompt: str,
+    generator: str,
+) -> dict:
+    """
+    Score a prompt AND get an AI-enhanced version in one call.
+
+    Combines score_prompt + enhance_prompt into a single round-trip.
+    Returns: original score, enhanced prompt, and new score — so you can
+    see the exact improvement before deciding which version to use.
+
+    Args:
+        prompt:    The prompt to score and enhance
+        generator: Target generation model (veo3, seedance, higgsfield, flux, midjourney, etc.)
+    """
+    return call("/api/score_and_enhance", {"prompt": prompt, "generator": generator})
+
+
+@mcp.tool()
+def track_enhancement(
+    original_prompt: str,
+    enhanced_prompt: str,
+    generator: str,
+) -> dict:
+    """
+    Record a before/after enhancement pair in the Dali graph.
+
+    Call this after you've written an enhanced prompt using the rewrite brief
+    from enhance_prompt. This trains the community graph with real A/B data —
+    contributing to creative_patterns and community_benchmark for all users.
+
+    Args:
+        original_prompt: The un-enhanced prompt
+        enhanced_prompt: The version you actually improved
+        generator:       Target generation model
+    """
+    return call("/api/track_enhancement", {
+        "original_prompt": original_prompt,
+        "enhanced_prompt": enhanced_prompt,
+        "generator": generator,
+    })
+
+
+@mcp.tool()
+def suggest_generator(
+    concept: str,
+    budget_usd_max: float = 1.0,
+) -> dict:
+    """
+    Pick the best generation model for a creative concept + budget.
+
+    Analyzes the concept (motion, style, realism requirements) and returns
+    a ranked list of generators with rationale and estimated cost per generation.
+
+    Args:
+        concept:        What you want to create (plain language or a prompt)
+        budget_usd_max: Max spend per generation in USD (default $1.00)
+    """
+    return call("/api/suggest_generator", {
+        "concept": concept,
+        "budget_usd_max": budget_usd_max,
+    })
+
+
+@mcp.tool()
+def score_variations(
+    prompts: list,
+    generator: str,
+) -> dict:
+    """
+    Score multiple prompt variations for the same generator in one call.
+
+    Returns a ranked list — highest to lowest score — so you can immediately
+    see which variation to send to generation. Best used after writing 2–5
+    candidate prompts and wanting to pick the winner objectively.
+
+    Args:
+        prompts:   List of prompt strings to compare (2–10 recommended)
+        generator: Target generation model
+    """
+    return call("/api/score_variations", {"prompts": prompts, "generator": generator})
+
+
+@mcp.tool()
+def dali_version() -> dict:
+    """
+    Return the current Dali server version and changelog.
+
+    Useful for checking if your MCP is connected to the latest server,
+    or for debugging version mismatches between the pip package and hosted API.
+    """
+    from .client import get_call
+    return get_call("/api/version")
 
 # ── Resources ──────────────────────────────────────────────────────────────
 
