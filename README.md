@@ -103,6 +103,11 @@ claude mcp add dali -- python -m dali.server
 |------|-------------|
 | `score_prompt(prompt, model)` | Grade 0–100, letter grade, per-dimension breakdown, what's missing, verdict |
 | `enhance_prompt(prompt, model)` | Returns a structured rewrite brief — YOUR LLM writes the enhanced prompt using it |
+| `score_and_enhance(prompt, generator)` | Score + enhance in one round-trip — returns original score, enhanced prompt, and new score |
+| `track_enhancement(original, enhanced, generator)` | Record a before/after pair in the graph brain — trains community patterns |
+| `suggest_generator(concept, budget_usd_max)` | Pick the best model for your concept + budget constraint |
+| `score_variations(prompts, generator)` | Rank a list of prompt variants in one call — returns them highest to lowest score |
+| `dali_version()` | Server version + changelog |
 | `analyze_intent(prompt)` | Parse dimensions: camera, motion, lighting, style, mood, gaps |
 | `creative_patterns(model)` | Community top patterns for this model from the graph brain |
 | `community_benchmark(prompt, model)` | Compare your prompt against community top scorers |
