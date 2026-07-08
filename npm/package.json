@@ -6,7 +6,20 @@
   "bin": {
     "dali-mcp": "bin/dali-mcp.js"
   },
-  "keywords": ["mcp", "model-context-protocol", "ai", "prompts", "creative", "image", "video", "midjourney", "veo", "higgsfield", "flux", "lulu"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "prompts",
+    "creative",
+    "image",
+    "video",
+    "midjourney",
+    "veo",
+    "higgsfield",
+    "flux",
+    "lulu"
+  ],
   "license": "MIT",
   "author": "Lulu",
   "homepage": "https://dali.getlulu.dev",
