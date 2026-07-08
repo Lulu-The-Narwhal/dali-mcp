@@ -19,8 +19,9 @@
 <p align="center">
   <a href="https://pypi.org/project/dali-mcp/"><img src="https://img.shields.io/pypi/v/dali-mcp.svg" alt="PyPI version"></a>
   <a href="https://pypi.org/project/dali-mcp/"><img src="https://img.shields.io/pypi/dm/dali-mcp.svg" alt="PyPI downloads"></a>
+  <a href="https://www.npmjs.com/package/dali-mcp"><img src="https://img.shields.io/npm/v/dali-mcp.svg" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/dali-mcp"><img src="https://img.shields.io/npm/dm/dali-mcp.svg" alt="npm downloads"></a>
   <a href="https://github.com/Lulu-The-Narwhal/dali-mcp/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+"></a>
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-server-6b5bff.svg" alt="MCP Server"></a>
   <a href="https://dali.getlulu.dev/dashboard"><img src="https://img.shields.io/badge/status-live-brightgreen.svg" alt="Live"></a>
 </p>
@@ -86,6 +87,15 @@ claude mcp add --transport http dali https://dali.getlulu.dev/mcp
 {
   "mcpServers": {
     "dali": { "url": "https://dali.getlulu.dev/mcp" }
+  }
+}
+```
+
+```json
+// stdio-only clients — npx wrapper around the hosted server, no Python needed
+{
+  "mcpServers": {
+    "dali": { "command": "npx", "args": ["-y", "dali-mcp"] }
   }
 }
 ```
