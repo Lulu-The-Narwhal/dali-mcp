@@ -17,7 +17,7 @@ _DEFAULT_TIMEOUT = 30.0
 
 
 def _headers(token: Optional[str] = None) -> dict:
-    h = {"Content-Type": "application/json", "User-Agent": "dali-mcp/0.5.6"}
+    h = {"Content-Type": "application/json", "User-Agent": "dali-mcp/0.5.7"}
     tok = token or os.environ.get("DALI_TOKEN")
     if tok:
         h["Authorization"] = f"Bearer {tok}"

@@ -83,13 +83,14 @@ jobs:
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
-      - name: Ensure npm supports trusted publishing (11.5.1+)
       - name: Sync npm/package.json version to release tag
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           npm --prefix npm pkg set version="$VERSION"
       - name: Publish to npm
         working-directory: npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public --no-provenance
       - name: Commit npm/package.json version sync
         run: |
