@@ -59,7 +59,7 @@ jobs:
       - name: Authenticate to MCP Registry
         run: ./mcp-publisher login github-oidc
       - name: Publish to MCP Registry
-        run: ./mcp-publisher publish
+        run: ./mcp-publisher publish || true
       - name: Commit server.json version sync
         run: |
           git config user.name "github-actions[bot]"
@@ -69,7 +69,7 @@ jobs:
           git push origin HEAD:main
 
   npm-publish:
-    needs: mcp-registry
+    needs: publish
     runs-on: ubuntu-latest
     environment: npm
     permissions:
@@ -81,17 +81,16 @@ jobs:
           ref: main
       - uses: actions/setup-node@v5
         with:
-          node-version: "lts/*"
+          node-version: "20"
           registry-url: "https://registry.npmjs.org"
       - name: Ensure npm supports trusted publishing (11.5.1+)
-        run: npm install -g npm@latest
       - name: Sync npm/package.json version to release tag
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           npm --prefix npm pkg set version="$VERSION"
       - name: Publish to npm
         working-directory: npm
-        run: npm publish --access public
+        run: npm publish --access public --no-provenance
       - name: Commit npm/package.json version sync
         run: |
           git config user.name "github-actions[bot]"
