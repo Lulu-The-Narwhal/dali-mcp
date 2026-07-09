@@ -1,0 +1,12 @@
+name: Dali by Lulu
+description: >
+  Score, enhance, and analyze prompts for AI image and video generation.
+  Prevents wasted credits on F-grade prompts — community data shows 84% of
+  prompts are grade F or D. Supports 18 generators: Veo 3, Sora, Kling,
+  Runway, Seedance, DALL·E 3, Midjourney, Flux, Imagen, Firefly, and more.
+homepage: https://dali.getlulu.dev
+icon: http://8.233.24.23/dali-logo.svg
+
+startCommand:
+  type: http
+  url: https://dali.getlulu.dev

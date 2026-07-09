@@ -1,3 +1,3 @@
 """Dali by Lulu — creative intelligence MCP for AI generation prompts."""
 
-__version__ = "0.5.4"
+__version__ = "0.5.5"
