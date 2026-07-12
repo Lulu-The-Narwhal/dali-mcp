@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dali-mcp"
-version = "0.5.10"
+version = "0.5.11"
 description = "Dali by Lulu — creative intelligence MCP. Score your prompt before you spend the credit."
 readme = "README.md"
 requires-python = ">=3.10"
