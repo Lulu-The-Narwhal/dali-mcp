@@ -7,12 +7,12 @@
     "url": "https://github.com/Lulu-The-Narwhal/dali-mcp",
     "source": "github"
   },
-  "version": "0.5.11",
+  "version": "0.5.13",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "dali-mcp",
-      "version": "0.5.11",
+      "version": "0.5.13",
       "transport": {
         "type": "stdio"
       }
