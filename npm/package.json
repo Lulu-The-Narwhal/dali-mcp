@@ -1,6 +1,6 @@
 {
   "name": "dali-mcp",
-  "version": "0.5.9",
+  "version": "0.5.10",
   "description": "Dali by Lulu — creative intelligence MCP. Score your prompt before you spend the credit.",
   "mcpName": "io.github.Lulu-The-Narwhal/dali",
   "bin": {
