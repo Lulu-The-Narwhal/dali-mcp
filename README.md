@@ -28,9 +28,14 @@
 
 ---
 
-**The prediction MCP that helps you avoid the AI generation tax.**
+**Score your creative against what's actually winning in the ad market — before you spend the credit.**
 
-Most AI generation failures are prompt failures. You can't tell the difference until after you've burned the token. Dali scores your prompt *before* you generate — so you never waste a credit on a bad prompt again. Every wasted generation has a real cost (a Seedance retry is ~$6) — [the live dashboard](https://dali.getlulu.dev/dashboard) tracks what the community has saved by catching bad prompts before they burned a credit.
+Most AI generation failures are predictable. A weak prompt, an off-formula creative — you can't tell until after you've burned the token. Dali scores it *first*, and it doesn't grade against opinions or generic "prompt tips." It grades against a **real, living corpus of proven-winning ads** — creatives still running in the market months after launch, scraped, embedded, and ranked. Two jobs:
+
+- **`score_prompt`** — judge the *prompt* before you generate (craft: camera, motion, lighting, model-native language).
+- **`score_creative`** — judge the actual *image* against proven winners (does it look like what converts, and what's missing).
+
+Every wasted generation has a real cost — a Seedance retry is ~$6. [The live dashboard](https://dali.getlulu.dev/dashboard) tracks what the community has saved by catching bad creatives before they burned a credit.
 
 ```
 You: "make a video ad for our glass serum bottle"
@@ -39,16 +44,14 @@ dali::score_prompt(prompt, "veo3")
 → 8/100  Grade: F
 → no camera move · no motion · no lighting · 8 words
 → Verdict: Generic stock footage guaranteed. Enhance first.
-
-dali::enhance_prompt(prompt, "veo3")
-→ Returns a rewrite brief — YOUR LLM writes the enhanced prompt:
+→ enhancement_brief included (score < 70):
 
   ① lead with camera — Veo 3's #1 lever: "Slow dolly", "Orbital push"
   ② describe physics: "a drop falls", "liquid ripples", "glass refracts"
   ③ lighting type + quality: "warm backlight", "rim-lit edges"
   ↳ [Camera]. [Subject + motion]. [Lighting]. [Mood]. [No text.]
 
-✦ Claude rewrites using the brief:
+✦ YOUR LLM rewrites using the brief:
 
   "Slow orbital push around a glass serum bottle on white marble. A single
    amber drop falls in extreme slow motion, catching warm backlight. Macro:
@@ -61,8 +64,51 @@ dali::score_prompt(enhanced, "veo3")
 
 ---
 
+## The real winning data layer
+
+This is what makes Dali more than a prompt linter. The scores are grounded in **real ads that are actually winning**, not hand-written rules.
+
+**How the corpus is built — longevity is the outcome signal.** We scrape the public Meta Ad Library. An ad still running *months* after it launched is one the advertiser keeps paying for — a **proven winner**. That "still-running-after-N-days" longevity is a market-validated label you can't fake, and it's the spine of the whole dataset.
+
+**What's in it, today:**
+
+| | |
+|---|---|
+| Ads ingested | **~2,000** across the live market |
+| Proven winners (long-running) | **~850** |
+| Distinct advertisers | **~1,000** |
+| Verticals | **8** — beauty, wellness, supplements, fitness, food, apparel, tech, pets |
+| Winner creatives embedded | **~340** (1408-dim multimodal vectors) |
+| Longest-running winner seen | **2,431 days** (6.6 years live) |
+
+**The pipeline (offline → serving).** The tools never scrape or embed on the fly — they read pre-built stores:
+
+```
+scrape Meta Ad Library         → proven winners (longevity label)
+      → Gemini vision           → creative attributes (lighting, format, before/after, offer…)
+      → prevalence SQL          → winning-pattern lift per vertical (winners vs baseline)
+      → Vertex embeddings       → BigQuery VECTOR_SEARCH (nearest proven winners, cosine)
+      → graph edges (Memgraph)  → (:Pattern)-[:WINS_IN {lift, n}]->(:Category)
+```
+
+So when `score_creative` runs, it embeds your image and finds the **actual winning ads it most resembles** by full visual signature — then tells you which winning attributes you're missing. When `enhance_prompt` runs with a category, the rewrite brief is backed by real market lift ("before/after shows up in 78% of winning wellness ads, 4× baseline"), not craft opinion.
+
+> **Honest scope.** The winner label is *longevity* (a strong market-validated proxy), not per-ad conversion rate — measured CVR validation is in progress. The corpus grows on a schedule, so coverage per vertical keeps deepening. What you get today: your creative scored against what's *demonstrably surviving* in the live market.
+
+```
+dali::score_creative(image_url, "beauty")
+→ score 62/100  — partial resemblance to proven winners
+→ looks_like:      Frøya Organics (ran 411d), tashportcosmetics (884d), Face Reality (346d)
+→ what_to_change:  winners use "before/after" 4× more · offer-visible 1.8× more
+→ defects:         none
+→ Verdict: Partial — strong resemblance, but add the high-lift attributes before spending.
+```
+
+---
+
 ## Contents
 
+- [The real winning data layer](#the-real-winning-data-layer)
 - [Install](#install)
 - [Tools](#tools)
 - [Supported models](#supported-models)
@@ -75,7 +121,7 @@ dali::score_prompt(enhanced, "veo3")
 
 ## Install
 
-**Hosted MCP — connect once, scores every prompt:**
+**Hosted MCP — connect once, scores every prompt and creative:**
 
 ```bash
 # Claude Code
@@ -109,24 +155,40 @@ pip install dali-mcp
 claude mcp add dali -- python -m dali.server
 ```
 
+> The self-hosted package exposes the prompt-scoring tools locally. The creative-scoring tools (`score_creative`, `analyze_winning_formula`) and the winning-ad corpus run on the hosted server — connect via the hosted MCP to use them.
+
 ---
 
 ## Tools
 
+**Score the creative — against real winners**
+
 | Tool | What it does |
 |------|-------------|
-| `score_prompt(prompt, model)` | Grade 0–100, letter grade, per-dimension breakdown, what's missing, verdict |
-| `enhance_prompt(prompt, model)` | Returns a structured rewrite brief — YOUR LLM writes the enhanced prompt using it |
-| `score_and_enhance(prompt, generator)` | Score + enhance in one round-trip — returns original score, enhanced prompt, and new score |
+| `score_creative(image_url, category)` | Score an actual ad **image**. Embedding similarity to proven winners is the headline score; also returns the winners it resembles, which winning attributes it's missing, and generation defects — in one call |
+| `analyze_winning_formula(csv, category, email)` | Paste your own ads export (creative URL + CPA/CTR/ROAS) → your winning formula vs your losers, plus how you compare to the industry median |
+
+**Score the prompt — before you generate**
+
+| Tool | What it does |
+|------|-------------|
+| `score_prompt(prompt, model, category?)` | Grade 0–100 with a per-dimension breakdown and verdict. When the score is weak, the **rewrite brief is returned in the same call**. Reads intent with the conversation LLM (understands negation, any language) |
+| `enhance_prompt(prompt, model, category?)` | Returns a structured rewrite brief — YOUR LLM writes the enhanced prompt. With a category, the brief is backed by real winning-ad lift |
 | `track_enhancement(original, enhanced, generator)` | Record a before/after pair in the graph brain — trains community patterns |
-| `suggest_generator(concept, budget_usd_max)` | Pick the best model for your concept + budget constraint |
-| `score_variations(prompts, generator)` | Rank a list of prompt variants in one call — returns them highest to lowest score |
-| `dali_version()` | Server version + changelog |
-| `analyze_intent(prompt)` | Parse dimensions: camera, motion, lighting, style, mood, gaps |
-| `creative_patterns(model)` | Community top patterns for this model from the graph brain |
+| `score_variations(prompts, generator)` | Rank a list of prompt variants in one call — highest to lowest |
+| `suggest_generator(concept, budget_usd_max)` | Pick the best model for your concept + budget |
+
+**The graph brain & meta**
+
+| Tool | What it does |
+|------|-------------|
+| `creative_patterns(model)` | Community top patterns for this model from the graph |
 | `community_benchmark(prompt, model)` | Compare your prompt against community top scorers |
+| `prompt_neighbors(prompt, model)` | Find A/B-grade prompts that share your patterns (score the prompt first, so its patterns are in the graph) |
+| `analyze_intent(prompt)` | Parse dimensions: camera, motion, lighting, style, mood, gaps |
 | `my_story()` | Your scoring history, model stats, grade distribution |
-| `list_models()` | All supported models with medium and core strength |
+| `list_generators()` | All supported models with medium and core strength |
+| `dali_version()` | Server version + changelog |
 
 ---
 
