@@ -74,11 +74,11 @@ This is what makes Dali more than a prompt linter. The scores are grounded in **
 
 | | |
 |---|---|
-| Ads ingested | **~2,000** across the live market |
-| Proven winners (long-running) | **~850** |
-| Distinct advertisers | **~1,000** |
+| Ads ingested | **10,204** (14,100 raw archive) |
+| Proven winners (long-running) | **3,808** |
+| Distinct advertisers | **4,121** |
 | Verticals | **8** — beauty, wellness, supplements, fitness, food, apparel, tech, pets |
-| Winner creatives embedded | **~340** (1408-dim multimodal vectors) |
+| Winner creatives embedded | **800** (1408-dim, balanced ~100/vertical) |
 | Longest-running winner seen | **2,431 days** (6.6 years live) |
 
 **The pipeline (offline → serving).** The tools never scrape or embed on the fly — they read pre-built stores:
@@ -166,6 +166,7 @@ claude mcp add dali -- python -m dali.server
 | Tool | What it does |
 |------|-------------|
 | `score_creative(image_url, category)` | Score an actual ad **image**. Embedding similarity to proven winners is the headline score; also returns the winners it resembles, which winning attributes it's missing, and generation defects — in one call |
+| `score_creative_from_view(category, …)` | **Score an image you're looking at (pasted/attached in the chat) — no URL.** The model reads the creative's attributes and Dali scores them against the winning corpus (verdict + what to change). Use for images shared in-conversation; `score_creative` (URL) adds the embedding headline |
 | `analyze_winning_formula(csv, category, email)` | Paste your own ads export (creative URL + CPA/CTR/ROAS) → your winning formula vs your losers, plus how you compare to the industry median |
 
 **Score the prompt — before you generate**
