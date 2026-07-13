@@ -9,4 +9,4 @@ icon: http://8.233.24.23/dali-logo.svg
 
 startCommand:
   type: http
-  url: https://dali.getlulu.dev
+  url: https://dali.getlulu.dev/mcp
